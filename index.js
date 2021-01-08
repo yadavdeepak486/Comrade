@@ -1,60 +1,49 @@
-const express = require("express");
+const express = require('express');
+const upload = require('./multer')
+
+const cloudiary = require('./cloudinary')
+
+const fs = require('fs')
+
+const bodyParser = require('body-parser');
+const { path } = require('dotenv/lib/env-options');
+
 const app = express();
-const mongoClient = require('mongodb').MongoClient
 
-const url = "mongodb://localhost:27017"
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
-app.use(express.json())
+//make a post request
+app.use('/upload', upload.array('image'), async (req, res) => {
+    const uploader = async (path) => {
+        await cloudiary.uploads(path, 'User_Profile')
 
-mongoClient.connect(url, (err, db) => {
-    if (err) {
-        console.log("Error while connecting mongo client");
-    } else {
-        const myDb = db.db('myDb')
-        const collection = myDb.collection('myTable')
+        if (req.method === 'POST') {
+            const urls = []
 
-        app.post('/signup', (req, res) => {
-            const newUser = {
-                name: req.body.name,
-                email: req.body.email,
-                password: req.body.password
+            const files = req.files
+
+            for (const file of files) {
+                const { path } = file
+
+                const newPath = await uploader(path)
+
+                urls.push(newPath)
+
+                fs.unlinkSync(path)
             }
-
-            const query = { email: newUser.email }
-
-            collection.findOne(query, (err, result) => {
-                if (result == null) {
-                    collection.insertOne(newUser, (err, result) => {
-                        res.status(200).send()
-                    })
-                } else {
-                    res.status(400).send()
-                }
+            res.status(200).json({
+                message: "Images Uploaded Succesfully!!",
+                data: urls
             })
-        })
-
-        app.post('/login', (req, res) => {
-            const query = {
-                email: req.body.email,
-                password: req.body.password
-            }
-
-            collection.findOne(query, (err, result) => {
-                if (result != null) {
-                    const objToSend = {
-                        name: result.name,
-                        email: result.email
-                    }
-
-                    res.status(200).send(JSON.stringify(objToSend))
-                } else {
-                    res.status(404).send()
-                }
+        } else {
+            res.json(405).json({
+                err: "Images not uploaded!!"
             })
-        })
+        }
     }
 })
 
-app.listen(3300, () => {
-    console.log("Listening on port 3300");
+app.listen(4400, () => {
+    console.log("Started on port http://localhost:4400/ ");
 })

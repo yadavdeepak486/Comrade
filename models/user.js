@@ -16,6 +16,10 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    phone: {
+        type: Number,
+        required: true,
+    },
     gender: {
         type: String,
         required: true
@@ -27,10 +31,54 @@ const UserSchema = mongoose.Schema({
     },
     interest_gender: {
         type: String,
-        required: true,
+        required: true
     },
     interest_in: {
         type: String,
+        required: true
+    },
+    about: {
+        type: String,
+        required: true
+    },
+    education: {
+        type: String,
+        required: true
+    },
+    job: {
+        type: String,
+        required: true
+
+    },
+    height: {
+        type: Number,
+        required: true
+
+    },
+    drinking: {
+        type: Boolean,
+        required: true
+
+    },
+    smoking: {
+        type: Boolean,
+        required: true
+
+    },
+    language: {
+        type: String,
+        required: true
+
+    },
+    relationship_status: {
+        type: String,
+        required: true
+
+    },
+    sexuality: {
+        type: String,
+        required: true
+
     }
 },
     { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
