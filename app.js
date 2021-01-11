@@ -1,9 +1,5 @@
 const express = require('express');
-
-
 const app = express();
-
-
 const mongoose = require('mongoose');
 
 
@@ -12,7 +8,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 require('dotenv').config();
-
 
 
 const path = require('path');
@@ -33,23 +28,25 @@ const Sendop = require('./routes/send');
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use('/users', Users);
-app.use('/posts', Posts);
-app.use('/userimg', Userimg);
-//app.use('/image', Image);
-//app.use('/login', Login)
-app.use('/profile', express.static('upload/images'))
-app.use('/send', Sendop)
+
+app.use('/api', Users);
+app.use('/api', Posts);
+app.use('/api', Userimg);
+app.use('/api', express.static('upload/images'))
+app.use('/api', Sendop)
 
 
 //Routes
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.send("We are at home");
 })
 
+
+DB_CONNECTION = "mongodb+srv://deepakdevelopersveltose01:pass@123@comrade.8vvxj.mongodb.net/ComradeUser?retryWrites=true&w=majority"
+
 //connect to DB
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }, () => {
+mongoose.connect(DB_CONNECTION, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }, () => {
     console.log('Connected to DB!');
 });
 
