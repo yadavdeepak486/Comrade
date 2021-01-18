@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const UserSchema = mongoose.Schema({
+
     email: {
         type: String,
         unique: true,
@@ -79,6 +80,23 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
 
+    },
+    active_status: {
+        type: String,
+        default: true
+
+    },
+    blocked_status: {
+        type: String,
+        default: false
+
+    },
+    moods: {
+        type: String
+    },
+    hashtag: {
+        type: Array,
+        of: String
     }
 },
     { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }

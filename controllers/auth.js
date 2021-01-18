@@ -1,13 +1,8 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken'); // to generate signed token
 const expressJwt = require('express-jwt'); // for authorization check
-const { errorHandler } = require('../helpers/dbErrorHandler');
-const SendOtp = require("sendotp");
 
 
-// pass your msg91 otp creditials SendOtp
-//const  sendOtp = new  SendOtp("346295A3SnqiV25fa256b6P1");
-const sendOtp = new SendOtp("351065A1dKwJf83zmK5ff46488");
 // using promise
 exports.SENDOTP = (req, res) => {
     // console.log("req.body", req.body);
@@ -19,22 +14,9 @@ exports.SENDOTP = (req, res) => {
             ? res.json({ success: true })
             : res.json({ success: false });
     });
-    // user.save((err, user) => {
-    //     if (err) {
-    //         console.log(err)
-    //         return res.status(400).json({
-    //             // error: errorHandler(err)
-    //             error: 'Phone is taken'
 
-    //         });
-    //     }
-    //     // user.salt = undefined;
-    //     // user.hashed_password = undefined;
-    //     res.json({
-    //         user
-    //     });
-    // });
 };
+
 exports.VERIFYOTP = (req, res) => {
     sendOtp.verify(req.body.phoneNumber, req.body.otp, function (err, data) {
         console.log("req.body", req.body);

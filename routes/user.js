@@ -2,9 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 
-
 // get all Users ..w
-router.get('/', async (req, res) => {
+router.get('/users', async (req, res) => {
     try {
         const users = await User.find();
         res.json(users);
@@ -15,8 +14,10 @@ router.get('/', async (req, res) => {
 
 
 // post User ..w
-router.post('/', async (req, res) => {
+
+router.post('/users', async (req, res) => {
     const user = new User({
+
         email: req.body.email,
         username: req.body.username,
         password: req.body.password,
@@ -33,20 +34,31 @@ router.post('/', async (req, res) => {
         smoking: req.body.smoking,
         language: req.body.language,
         relationship_status: req.body.relationship_status,
-        sexuality: req.body.sexuality
+        sexuality: req.body.sexuality,
+        moods: req.body.moods,
+        hashtag: req.body.hashtag
+
     });
     try {
         const savedUser = await user.save();
-        res.json(savedUser);
+        res.json({
+            status: true,
+            message: "Signup Successful!!",
+            id: savedUser._id
+        });
     } catch (err) {
-        res.json({ message: err });
+        res.json({
+            status: false,
+            message: "Email is taken",
+            error: err
+
+        });
     }
 });
 
 
-
 //Find specific user ..w
-router.get('/:userId', async (req, res) => {
+router.get('/users/:userId', async (req, res) => {
     try {
         const user = await User.findById(req.params.userId);
         res.json(user);
@@ -56,7 +68,7 @@ router.get('/:userId', async (req, res) => {
 });
 
 //Delete a user .. nw
-router.delete('/:userId', async (req, res) => {
+router.delete('/users/:userId', async (req, res) => {
     try {
         const removedUser = await this.User.remove({ _id: req.params.userId });
         res.json(removedUser);
@@ -66,7 +78,7 @@ router.delete('/:userId', async (req, res) => {
 })
 
 //Update a user ..w
-router.patch('/:userId', async (req, res) => {
+router.patch('/users/:userId', async (req, res) => {
     try {
         const updatedUser = await User.updateOne(
             { _id: req.params.userId }, {
@@ -88,8 +100,9 @@ router.patch('/:userId', async (req, res) => {
                 smoking: req.body.smoking,
                 language: req.body.language,
                 relationship_status: req.body.relationship_status,
-                sexuality: req.body.sexuality
-
+                sexuality: req.body.sexuality,
+                moods: req.body.moods,
+                hashtag: req.body.hashtag
             }
         }
         );
