@@ -20,8 +20,12 @@ sendOtp.send("918871782180", "comradesms", '2321', function (error, data) {
 
 
 //Middleware
+const Img = require('./routes/image')
 const Auth = require('./routes/auth')
 const Users = require('./routes/user');
+const Match = require('./routes/match');
+const Superlike = require('./routes/superlike')
+
 
 
 //Route using
@@ -29,8 +33,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+app.use('/api', Img)
 app.use('/api', Auth)
 app.use('/api', Users);
+app.use('/api', Match);
+app.use('/api', Superlike)
+
 
 
 //Routes

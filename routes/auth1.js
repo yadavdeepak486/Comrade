@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const SendOtp = require('sendotp');
-const user = require('../models/user');
 const sendOtp = new SendOtp('351065AThUWMW1ss60052d52P1');
 
 
@@ -36,7 +35,6 @@ router.post('/verifyotp', (req, res) => {
     sendOtp.verify(getmobnumber, receivedotp, function (error, data) {
         console.log(data);
         if (data.type == 'success') {
-
             res.json({
                 data
             })

@@ -108,7 +108,7 @@ router.patch('/users/:userId', async (req, res) => {
         );
         res.json(updatedUser)
     } catch (err) {
-        res.json9({ message: err });
+        res.json({ message: err });
     }
 })
 
