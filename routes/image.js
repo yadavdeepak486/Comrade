@@ -22,13 +22,33 @@ router.get("/upload", function (req, res) {
     res.sendFile(__dirname + "/index.html");
 })
 
-router.post("/upload", upload.single('avatar'), function (req, res) {
-    upload(req, res, function (err) {
-        if (err) {
-            return res.end("Something went wrong!");
-        }
-        return res.end("File uploaded successfully!.");
-    })
+
+router.post("/upload", upload.single('avatar'), async (req, res,) => {
+    if (!res) {
+        res.json({
+            message: "Some Error occured!!"
+        })
+    }
+    if (res) {
+        res.json({
+            message: "File uploaded successfully!!",
+            link: __dirname
+        })
+    }
+    // upload(req, res, function (err) {
+    //     if (err) {
+    //         //return res.end("Something went wrong!");
+    //         res.json({
+    //             message: "Something went wrong!"
+    //         })
+    //     }
+    //     if (!err) {
+    //         res.json({
+    //             message: "File uploaded successfully!"
+    //         })
+    //     }
+    //     //return res.end("File uploaded successfully!.");
+    // })
 });
 
 module.exports = router;
