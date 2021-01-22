@@ -4,19 +4,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+
 require('dotenv').config();
 const path = require('path');
 
 //auth
-
-
-/*
-sendOtp.send("918871782180", "comradesms", '2321', function (error, data) {
-    console.log(data);
-    if (data.type == 'success') console.log('OTP verified successfully')
-    if (data.type == 'error') console.log('OTP verification failed')
-});
-*/
 
 
 //Middleware

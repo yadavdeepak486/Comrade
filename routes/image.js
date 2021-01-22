@@ -5,7 +5,7 @@ const multer = require('multer');
 
 var Storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './Images');
+        cb(null, '../Images');
     },
     filename: function (req, file, callback) {
         callback(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
@@ -19,36 +19,27 @@ var upload = multer({
 //.array("imgUploader", 3);
 
 router.get("/upload", function (req, res) {
-    res.sendFile(__dirname + "/index.html");
+    res.sendFile(__dirname, + "/index.html");
 })
 
 
-router.post("/upload", upload.single('avatar'), async (req, res,) => {
+router.post("/upload", upload.array('avatar', 10), async (req, res) => {
+    var fileinfo = req.file;
+    // var title = req.body.title;
+
+    console.log(fileinfo);
     if (!res) {
         res.json({
-            message: "Some Error occured!!"
+            message: fileinfo
         })
     }
     if (res) {
         res.json({
             message: "File uploaded successfully!!",
-            link: __dirname
+            link: fileinfo,
+            directory: __dirname
         })
     }
-    // upload(req, res, function (err) {
-    //     if (err) {
-    //         //return res.end("Something went wrong!");
-    //         res.json({
-    //             message: "Something went wrong!"
-    //         })
-    //     }
-    //     if (!err) {
-    //         res.json({
-    //             message: "File uploaded successfully!"
-    //         })
-    //     }
-    //     //return res.end("File uploaded successfully!.");
-    // })
 });
 
 module.exports = router;

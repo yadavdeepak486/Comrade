@@ -13,6 +13,21 @@ router.get('/matchs', async (req, res) => {
     }
 });
 
+router.post('/matchsbyid', async (req, res) => {
+
+    try {
+        const findIf = await Match.find({ liked_by: req.body.liked_by })
+
+        res.json({
+            status: true,
+            totalmatchs: findIf.length,
+            findIf,
+        })
+    } catch (err) {
+        res.json({ message: err })
+    }
+});
+
 router.post('/matchs', async (req, res) => {
     const match = new Match({
         liked_by: req.body.liked_by,

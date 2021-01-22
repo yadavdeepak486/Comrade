@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const SendOtp = require('sendotp');
+const user = require('../models/user');
 const sendOtp = new SendOtp('351065AThUWMW1ss60052d52P1');
 
 
@@ -32,9 +33,13 @@ router.post('/sendotp', async (req, res) => {
 router.post('/verifyotp', (req, res) => {
     const getmobnumber = req.body.mobile;
     const receivedotp = req.body.otp
+
+
+
     sendOtp.verify(getmobnumber, receivedotp, function (error, data) {
         console.log(data);
         if (data.type == 'success') {
+
             res.json({
                 data
             })
@@ -47,5 +52,9 @@ router.post('/verifyotp', (req, res) => {
             console.log('OTP verification failed')
         }
     });
+
+
+    //check weather mobile registered or not
+
 })
 module.exports = router;

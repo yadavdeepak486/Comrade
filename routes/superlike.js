@@ -13,6 +13,23 @@ router.get('/superlike', async (req, res) => {
     }
 });
 
+
+router.post('/superlikebyid', async (req, res) => {
+    try {
+        const Users = await SuperMatch.find({ super_liked_by: req.body.super_liked_by })
+
+        res.json({
+            status: true,
+            totalmatchs: Users.length,
+            Users,
+        })
+    } catch (err) {
+        res.json({ message: err })
+    }
+});
+
+
+
 router.post('/superlike', async (req, res) => {
     const superlikeconst = new SuperMatch({
         super_liked_by: req.body.super_liked_by,
