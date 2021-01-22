@@ -33,19 +33,24 @@ router.post('/sendotp', async (req, res) => {
 
 router.post('/verifyotp', async (req, res) => {
     const getmobnumber = req.body.mobile;
+    const obj = {}
     const receivedotp = req.body.otp
+    const findIf = await User.find({ phone: req.body.mobile })
+    obj.new_data = findIf
+
     sendOtp.verify(getmobnumber, receivedotp, function (error, data) {
-        console.log(userCheck());
         if (data.type == 'success') {
+            obj.data = data
             res.json({
-                data,
+                obj,
                 status: "userCheck(status)"
             })
             console.log('OTP verification successful', data)
         }
         if (data.type == 'error') {
+            obj.data1 = data
             res.json({
-                data,
+                obj,
                 status: "userCheck(status)"
             })
             console.log('OTP verification failed')
