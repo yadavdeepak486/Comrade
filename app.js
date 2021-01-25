@@ -17,6 +17,7 @@ const Auth = require('./routes/auth')
 const Users = require('./routes/user');
 const Match = require('./routes/match');
 const Superlike = require('./routes/superlike')
+const Chat = require('./routes/chat')
 
 
 
@@ -30,6 +31,8 @@ app.use('/api', Auth)
 app.use('/api', Users);
 app.use('/api', Match);
 app.use('/api', Superlike)
+app.use('/api', Chat)
+
 
 
 
